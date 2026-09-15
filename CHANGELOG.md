@@ -1,5 +1,11 @@
 # Changelog
 
+## [2026-09-15]
+
+### Changed
+
+- Adopt Gateway SDK v0.4.0-rc.12 and common SDK v0.4.0-rc.11 while preserving independent process and document UI lifecycle conformance.
+
 ## [0.2.0-rc.3] - 2026-09-09
 
 ### Added
