@@ -1,0 +1,6 @@
+github.com/ByteDeskAI/bytedesk-remote-gateway-plugin-sdk v0.4.0-rc.12 h1:z30a1tnRKjy0buZ/6Fa9l/v3WwuPdy0s+E9jIJVFU60=
+github.com/ByteDeskAI/bytedesk-remote-gateway-plugin-sdk v0.4.0-rc.12/go.mod h1:/oj6e1XWHptHuUs1doIfU9TQZNIFZoYBJ77FvApI8SQ=
+github.com/ByteDeskAI/bytedesk-sdk-dependencies v0.4.0-rc.11 h1:Hf3WzR1jdWuM4C/Qw/c3KcNyeqphole9IW83zoH8q3U=
+github.com/ByteDeskAI/bytedesk-sdk-dependencies v0.4.0-rc.11/go.mod h1:MYucZhH3KqdTUXHOYPDMKisvNIEuz1jQyjo63GyJqVA=
+github.com/Masterminds/semver/v3 v3.5.0 h1:kQceYJfbupGfZOKZQg0kou0DgAKhzDg2NZPAwZ/2OOE=
+github.com/Masterminds/semver/v3 v3.5.0/go.mod h1:4V+yj/TJE1HU9XfppCwVMZq3I84lprf4nC11bSS5beM=
