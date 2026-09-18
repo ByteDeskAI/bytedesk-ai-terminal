@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	pluginsdk "github.com/ByteDeskAI/bytedesk-remote-gateway-plugin-sdk"
+	pluginsdk "github.com/ByteDeskAI/bytedesk-remote-gateway-plugin-sdk/v2"
 	example "github.com/ByteDeskAI/bytedesk-remote-gateway-plugin-template/exampleplugin"
 	"log"
 )

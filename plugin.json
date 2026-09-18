@@ -1,6 +1,12 @@
 {
+  "contract": 2,
+  "kind": "process",
   "id": "example",
-  "version": "0.2.0-rc.3",
+  "version": "0.3.0-rc.1",
+  "identity": {
+    "displayName": "Example plugin",
+    "description": "Reference plugin for typed events, key/value state, services, and an HTTP panel."
+  },
   "nav": [
     {
       "id": "example",
@@ -27,20 +33,46 @@
   "routes": [
     "/example/"
   ],
-  "spawn": true,
   "binary": "example",
   "socket": "plugin.sock",
   "targets": [
     "gateway"
   ],
+  "role": "extension",
+  "publisher": {
+    "id": "bytedesk",
+    "name": "ByteDesk"
+  },
   "protocol": {
-    "major": 1,
+    "major": 2,
     "required": [
-      "host.scoped.v1",
-      "activation.check.v1",
-      "ui.document-paths.v1",
-      "ui.mount.v1"
+      "http.routes.v1",
+      "ui.document-paths.v1"
+    ],
+    "hooks": [
+      "activation.check"
     ]
   },
-  "permissions": {}
+  "serves": [
+    {
+      "name": "svc.example.v1.hello",
+      "version": "1.0.0",
+      "endpoints": [
+        {
+          "name": "hello",
+          "subject": "svc.example.v1.hello"
+        }
+      ]
+    }
+  ],
+  "kv": [
+    {
+      "name": "example_runtime",
+      "maxBytes": 65536,
+      "history": 5
+    }
+  ],
+  "needs": [
+    "services"
+  ]
 }

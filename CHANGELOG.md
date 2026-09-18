@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.3.0-rc.1] - 2026-09-18
+
+### Changed
+
+- Move the reference process to plugin SDK v2.0.0-rc.2 and shared SDK v2.0.0-rc.3.
+- Replace the v1 Host callback surface with the bound v2 bus.
+
+### Added
+
+- Typed startup event, discoverable hello service, and host-provisioned typed KV state example with an in-memory end-to-end test.
+
 ## [2026-09-15]
 
 ### Changed
