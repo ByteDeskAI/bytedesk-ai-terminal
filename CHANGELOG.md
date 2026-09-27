@@ -1,38 +1,19 @@
 # Changelog
 
-## [2026-09-15]
-
-### Changed
-
-- Adopt Gateway SDK v0.4.0-rc.12 and common SDK v0.4.0-rc.11 while preserving independent process and document UI lifecycle conformance.
-
-## [0.2.0-rc.3] - 2026-09-09
+## [0.1.0] - Unreleased
 
 ### Added
 
-- Independent DOM module with canonical document-route claims, payload-first location updates, scoped navigation, and idempotent activation cleanup.
-- Explicit linked and spawned host authorization, admitted-request draining, and private readiness endpoint guidance.
-- Browser lifecycle conformance for navigation, withdrawal, remounting, and failed-mount rollback.
-- Executable conformance rejects hosts lacking the required document-route and module-mount features before socket publication.
+- Public SDK coding-session consumer with Projects checkout context and existing
+  session document routes.
+- Host-managed task routing, next-task overrides, permission selection, ordered
+  transcript, approvals, explicit recovery and complete/new-task controls.
+- Shared dock opening without a second coding process; view cleanup never ends
+  the durable session.
+- Host route preview with explicit job cancellation and unknown-value reporting.
+- Released contract artifact checks, lifecycle tests and a labelled UI fixture.
 
-### Changed
+### Delivery status
 
-- Adopt Gateway SDK v0.4.0-rc.6 and common SDK v0.4.0-rc.5.
-
-## [0.2.0-rc.2] - 2026-09-09
-
-### Changed
-
-- Adopt Gateway SDK v0.4.0-rc.5 and common SDK v0.4.0-rc.4 with canonical dependency version constraint validation.
-
-## [0.2.0-rc.1] - 2026-09-08
-
-### Changed
-
-- Replace the handler-only scaffold with an independently constructed SDK Plugin package and shared ServePlugin entrypoint.
-- Pin released SDK prereleases and remove sibling-directory replacements.
-- Generate plugin.json from the implementation and test lifecycle withdrawal and manifest parity.
-
-### Added
-
-- Built-executable conformance verifies denial before socket publication, admitted serving, and graceful withdrawal without Gateway implementation imports.
+- Source and isolated checks only. Store publication, authenticated integrated
+  Gateway/ACP acceptance and host cutover are separate release gates.
