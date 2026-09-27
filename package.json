@@ -1,0 +1,11 @@
+{
+  "name": "@bytedesk/ai-terminal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "contracts:check": "go run ./cmd/sync-contracts -check"
+  },
+  "engines": { "node": ">=22" }
+}

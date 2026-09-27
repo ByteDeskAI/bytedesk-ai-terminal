@@ -1,3 +1,5 @@
-/example
+/ai-terminal
 /dist/
 *.tar.gz
+node_modules/
+.worktrees/

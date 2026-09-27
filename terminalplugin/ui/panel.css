@@ -1,0 +1,44 @@
+.ait { color: var(--bd-text-primary); background: var(--bd-bg-base); font: inherit; padding: 16px; display: grid; gap: 16px; min-width: 0; box-sizing: border-box; }
+.ait * { box-sizing: border-box; }
+.ait h1, .ait h2, .ait p { margin: 0; }
+.ait h1 { font-size: 20px; font-weight: 600; }
+.ait h2 { font-size: 16px; font-weight: 600; }
+.ait p { line-height: 1.5; overflow-wrap: anywhere; }
+.ait-header, .ait-event-meta { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.ait-header > div, .ait-context, .ait-alerts, .ait-session-bar, .ait-preview { display: grid; gap: 12px; min-width: 0; }
+.ait-alerts:empty, .ait-preview:empty, .ait-session-bar:empty { display: none; }
+.ait-muted, .ait-header p, .ait-event-meta time { color: var(--bd-text-secondary); font-size: 13px; }
+.ait button, .ait select, .ait textarea, .ait input { font: inherit; color: var(--bd-text-primary); background: var(--bd-bg-surface); border: 1px solid var(--bd-border-default); border-radius: var(--bd-radius-sm); }
+.ait button { padding: 8px 12px; cursor: pointer; white-space: nowrap; min-height: 36px; }
+.ait button:hover:not(:disabled) { background: var(--bd-bg-overlay); border-color: var(--bd-border-strongest); }
+.ait button:focus-visible, .ait select:focus-visible, .ait textarea:focus-visible, .ait input:focus-visible, .ait summary:focus-visible, .ait-history:focus-visible { outline: 2px solid var(--bd-interactive-focus); outline-offset: 2px; }
+.ait button:disabled, .ait select:disabled, .ait input:disabled { color: var(--bd-text-disabled); cursor: not-allowed; }
+.ait .ait-primary { background: var(--bd-interactive-blue); color: var(--bd-text-on-interactive); border-color: var(--bd-interactive-blue); font-weight: 600; }
+.ait .ait-primary:hover:not(:disabled) { color: var(--bd-text-primary); }
+.ait .ait-primary:disabled { background: var(--bd-bg-surface); border-color: var(--bd-border-default); color: var(--bd-text-disabled); }
+.ait-settings, .ait-preview { border: 1px solid var(--bd-border-default); padding: 16px; border-radius: var(--bd-radius-md); background: var(--bd-bg-subtle); }
+.ait-settings summary { cursor: pointer; font-weight: 600; }
+.ait-settings[open] summary { margin-bottom: 16px; }
+.ait-settings > div { display: grid; gap: 12px; }
+.ait-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); gap: 16px; }
+.ait-field { display: grid; gap: 6px; min-width: 0; font-size: 13px; }
+.ait select { width: 100%; padding: 8px; min-height: 36px; }
+.ait-work-unit { display: grid; gap: 6px; min-width: 0; }
+.ait-work-unit input { width: min(320px, 100%); padding: 8px; min-height: 36px; }
+.ait-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.ait-history { list-style: none; padding: 0; margin: 0; min-height: 180px; max-height: 52vh; overflow: auto; overscroll-behavior: contain; border-block: 1px solid var(--bd-border-default); }
+.ait-event, .ait-empty { padding: 16px; display: grid; gap: 12px; border-bottom: 1px solid var(--bd-border-dimmest); }
+.ait-event:last-child { border-bottom: 0; }
+.ait-event[data-kind="approval"] { background: var(--bd-bg-elevated); }
+.ait-event-meta { font-size: 13px; }
+.ait-event-meta time { font-size: 11px; }
+.ait-content { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; line-height: 1.55; }
+.ait-event[data-kind="tool"] .ait-content { font-family: var(--bd-font-mono); font-size: 12px; }
+.ait-error { padding: 12px 16px; border-left: 3px solid var(--bd-interactive-focus); background: var(--bd-bg-elevated); }
+.ait-compose { display: grid; gap: 12px; }
+.ait-compose > label { font-weight: 600; }
+.ait textarea { padding: 12px; width: 100%; resize: vertical; min-height: 100px; line-height: 1.5; }
+.ait-confirm { color: var(--bd-text-primary); background: var(--bd-bg-elevated); border: 1px solid var(--bd-border-default); border-radius: var(--bd-radius-md); max-width: min(460px, calc(100vw - 32px)); padding: 24px; }
+.ait-confirm[open] { display: grid; gap: 16px; }
+@media (max-width: 600px) { .ait-header { flex-wrap: wrap; } .ait-event-meta { flex-direction: column; gap: 4px; } .ait-history { max-height: 45vh; } }
+@media (prefers-reduced-motion: reduce) { .ait * { scroll-behavior: auto; } }

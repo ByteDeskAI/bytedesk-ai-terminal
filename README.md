@@ -1,27 +1,98 @@
-# ByteDesk remote-gateway plugin template
+# AI Terminal
 
-The `example` package is the v2 reference process plugin. It embeds `pluginsdk.Base`, imports no Gateway implementation, and uses the bound bus for a typed startup event, a discoverable request/reply service, and optional typed KV state. It also keeps the existing HTTP panel and activation check. `cmd/example` serves the same implementation as a process using `ServePlugin`.
+A Store-installable Gateway process plugin for durable coding sessions. It starts
+from the public plugin template and uses released SDK contracts, not private
+Gateway endpoints or direct coding-client processes.
 
-1. Rename the module, package ID and declared routes in `exampleplugin/plugin.go`.
-2. Define payloads and descriptors in `contracts/`. Generate a larger contract surface with the common SDK contract generator.
-3. Implement domain behavior through `Base.Bus()`. Request only exact external subject patterns through manifest permissions; the host grants the plugin's own event, service and declared asset namespaces.
-4. Regenerate `plugin.json` with `go run ./cmd/manifest` and review the output before replacing the file.
-5. Run `go test ./...`, then build `go build -o example ./cmd/example`.
-6. Validate with `go run github.com/ByteDeskAI/bytedesk-remote-gateway-plugin-sdk/v2/cmd/plugin-sdk validate --dir .` and pack with the same pinned command using `pack --dir . --out dist`.
-7. Install the package through the Store/control plane, then enable it. Disabled installation exposes no contributions. The host resolves declared `/example/` routes and `/plugins/example` navigation; legacy `/p/example/` proxy access strips that conventional prefix only.
+## Ownership and requirements
 
-The template requires protocol major 2, services, HTTP routes and `ui.document-paths.v1`. An older or incomplete host is refused during negotiation. The KV declaration is optional at runtime because the current spawned NATS transport does not yet expose KV; when the negotiated bus reports KV, `Start` opens the host-provisioned bucket and records startup state. It never creates storage outside the manifest. `Stop` withdraws the service before returning. Never control, execute or proxy another plugin.
+The Gateway owns ACP connections, routing, worktrees, approval enforcement,
+durable transcripts and recovery. The plugin owns the session controls and view.
+It never receives a Jev API key, chooses a local provider route, spawns another
+plugin, or executes a shell. Its manifest declares exact coding-session commands
+and the five bounded payload commands. Activation requires the aggregate `coding.sessions.v1`
+feature and authenticated workload support; a partial or older host must refuse.
+The manifest also requests `process.supervised` for host-owned coding execution.
+An administrator must consent to this side effect and the exact command grants
+before creating, prompting, recovering or starting a new task. Automatic AI
+decision admission never grants coding execution. Read and cleanup commands keep
+their own grants so withdrawing execution consent does not strand active work.
 
-`ServePlugin` reads the `GATEWAY_PLUGIN_*` process contract, negotiates the v2 bus, binds the plugin, and then starts it. New executable code runs in a spawned process, not a Go shared object. Only the host owns operator authentication, admission, transport routing, asset provisioning and process supervision. Preserve full declared request paths in handlers.
+The first package target is Linux amd64. Go pins are Gateway SDK
+`v2.0.0-rc.12` and common SDK `v2.0.0-rc.14`. Browser contracts are copied from
+that released common module by `cmd/sync-contracts`; they need no npm registry
+or external script at runtime. Their shapes are checked client-side; the host's
+strict validators, live grants and resource checks remain authoritative.
 
-The UI is self-contained for host CSP. For modules, use the versioned `@bytedesk/gateway-plugin-ui` mount/cleanup contract; untrusted UI requires the host sandbox/broker, not an in-page privilege grant inferred from a signature. See the Gateway plugin author guide for operator authorization and containment policy.
+## Use
 
-## Independent UI and document routes
+1. In Projects, select a checkout and open **AI Terminal**. The host supplies
+   `host.location().params.projectId` and the opaque `checkoutRef` search value.
+   The browser does not construct a checkout from an absolute filesystem path.
+2. Choose a policy and enforceable permission mode. Balanced and Ask are the
+   defaults. The policy is remembered per project in this browser; existing
+   session preferences remain durable in the host. Provider/model/config
+   overrides apply only to the next task. Unsupported or stale model-dependent
+   effort choices are not offered.
+3. Enter the task and start it. The host creates a fresh worktree from committed
+   HEAD; uncommitted changes are excluded. Follow-ups retain the task's route.
+4. Respond to host approvals. **Stop prompt** stops active work without ending a
+   healthy coding connection. **Complete task** checks the host's task gates;
+   an ACP end-turn is not completion. **New task** is available after completion.
+5. **Open in dock** attaches to the same session. Closing that dock ends the
+   shared session; navigation, refresh and view cleanup do not. **End session**
+   has a confirmation dialog with Cancel and Escape.
 
-`exampleplugin/panel.mjs` exports `mount(element, host)` and owns its DOM renderer. It imports no Gateway React components, router, or state store. The manifest declares `/example` and `/example/view/:item` as panel document paths; these claims are separate from HTTP API routes. The host supplies the escaped pathname, search, hash, and once-decoded route parameters through `host.location()`, and navigation through `host.navigate()`.
+`/ai-terminal/sessions/:sessionId` opens an existing exact session. It needs no
+checkout selection and never creates a replacement. Without admitted Projects
+context, new tasks stay disabled. Recovery is explicit and capability-gated;
+uncertain prompts are never automatically replayed. A lost reply is not proof
+that no work ran—check the durable session before resubmitting.
 
-The module subscribes to `host.location`, returns an idempotent cleanup function, and removes listeners and DOM when its activation signal aborts. A failed subscription rolls back partial mounting. Its embedded single-file module has no external import graph or network dependency.
+Route preview uses the real host routing job and can incur decision-provider
+usage. It creates no coding session, worktree or coding process. Unknown cost,
+latency and confidence remain visibly unknown.
 
-Run `node tests/ui-lifecycle.mjs` with Playwright installed, or set `PLAYWRIGHT_MODULE` to its importable module path; `CHROME_PATH` can select a local Chrome executable. This browser fixture verifies mounting, navigation, location updates, abort cleanup, remounting, and partial-mount failure under a strict self-only CSP. It exercises an SDK host facade, not an installed Gateway or live authorization. A host must implement and advertise the required UI feature before this template can activate; adding manifest fields alone does not establish host support.
+## Build and checks
 
-The host must authenticate requests and enforce declared scopes before dispatching to the plugin. For a spawned plugin, enforcement precedes proxying `/example/`; plugin handlers must never be exposed through an unauthenticated public listener. The process entrypoint listens on the host-managed Unix socket. A private socket is transport, not an alternative authorization policy. The host withdraws routing admission before calling `Stop` and drains already admitted requests according to its lifecycle policy. On the private plugin socket only, `/healthz` reports plugin readiness, not unconditional process liveness. Gateway reserves its public `/healthz` for the host; that URL does not route to this plugin.
+```sh
+go mod download
+go run ./cmd/sync-contracts -check
+go run ./cmd/manifest -out plugin.json
+go test ./...
+go test -race ./...
+npm test
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -trimpath -o dist/ai-terminal ./cmd/ai-terminal
+```
+
+`plugin.json` is generated from the SDK manifest. Do not edit it by hand. Go
+module replacements and `go.work` are not delivery mechanisms. Package the
+binary and generated manifest using the Store's ordinary authenticated package
+and installation path; a local build is not a published Store release.
+
+For a local, clearly labelled UI fixture:
+
+```sh
+AI_TERMINAL_TEST_TOKENS=/path/to/pinned/design-tokens/bytedesk.css node tests/fixture-server.mjs
+```
+
+The fixture has no Gateway authority. Its visible interaction checks do not
+prove installation, live ACP routing, API-key isolation, task-gate enforcement,
+shared-dock restore or production cutover. Those require the integrated host
+and authenticated Store/Gateway acceptance.
+
+## Implementation layout
+
+- `terminalplugin/plugin.go`: manifest, lifecycle and embedded read-only assets.
+- `terminalplugin/ui/api.mjs`: released descriptors, response guards and bounded
+  payload uploads/reads. Prompts above 32 KiB use the reserved host consumer
+  `gateway` with purpose `coding-prompt`, SHA-256 verification and 24 KiB chunks,
+  up to 8 MiB. This is not an AI-provider identity or a filesystem path. History
+  output leases are released only after complete UTF-8 hydration; partial reads
+  retain the lease for retry or expiry. Content is text, never trusted HTML.
+- `controller.mjs`: session/job orchestration, ordered events and lifecycle guards.
+- `view.mjs`, `panel.css`: host-themed, keyboard-accessible controls and transcript.
+- `tests`: bounded unit/contract fixtures; no live provider claims.
+
+The UI follows Gateway's pinned design tokens and uses independent DOM controls,
+not private React components or another plugin's globals.
