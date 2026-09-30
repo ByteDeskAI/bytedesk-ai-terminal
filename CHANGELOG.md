@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.1] - Unreleased
+
+### Changed
+
+- Version 0.1.1 declares `spawn: true` and adds `scripts/ci/plugin-build-v1.sh` for the shared TeamCity plugin-build v1 runner. Store 0.1.0 stays the earlier archive.
+
 ## [0.1.0] - Unreleased
 
 ### Added

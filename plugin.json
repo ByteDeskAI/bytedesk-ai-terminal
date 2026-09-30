@@ -2,7 +2,7 @@
   "contract": 2,
   "kind": "process",
   "id": "ai-terminal",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "identity": {
     "displayName": "AI Terminal",
     "description": "Shared, durable coding sessions with host-managed routing and permissions."
@@ -34,6 +34,7 @@
   "routes": [
     "/ai-terminal/"
   ],
+  "spawn": true,
   "binary": "ai-terminal",
   "socket": "plugin.sock",
   "targets": [

@@ -20,7 +20,7 @@ import (
 	"github.com/ByteDeskAI/bytedesk-sdk-dependencies/v2/plugin"
 )
 
-const Version = "0.1.0"
+const Version = "0.1.1"
 
 //go:embed ui
 var assets embed.FS
@@ -34,7 +34,7 @@ func New() *Plugin         { return &Plugin{} }
 func (*Plugin) ID() string { return "ai-terminal" }
 func (p *Plugin) Manifest() pluginsdk.Manifest {
 	return pluginsdk.Manifest{
-		Contract: pluginsdk.ProtocolMajor, Kind: pluginsdk.KindProcess,
+		Contract: pluginsdk.ProtocolMajor, Kind: pluginsdk.KindProcess, Spawn: true,
 		ID: p.ID(), Version: Version,
 		Identity:  &pluginsdk.ManifestIdentity{DisplayName: "AI Terminal", Description: "Shared, durable coding sessions with host-managed routing and permissions."},
 		Publisher: &pluginsdk.Publisher{ID: "bytedesk", Name: "ByteDesk"},
